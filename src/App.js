@@ -39,10 +39,12 @@ const CalendarCell = ({ date, eventData = [] }) => {
                         const eventTime = formatEventTime(start);
 
                         return (
-                            <li key={uid}>
-                                {eventTime}
-                                {summary}
-                                {description}
+                            <li key={uid} className="event">
+                                {eventTime && <span className="time">{eventTime}:</span>}
+                                {' '}
+                                <span className="summary">{summary}</span>
+                                {' '}
+                                <span className="description">{description}</span>
                             </li>
                         );
                     })}

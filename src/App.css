@@ -21,7 +21,7 @@
 
 .CalenderCell {
     border: 1px solid black;
-    font-size: 12pt;
+    font-size: 11pt;
 }
 
 .CalenderCell.weekend {
@@ -33,9 +33,27 @@
     border-bottom: 1px solid black;
 }
 
-.CalenderCell .date .day {
-}
-
 .CalenderCell .date .dt {
     font-weight: bold;
+}
+
+.CalenderCell .events {
+    list-style: none;
+    padding-inline-start: 0;
+
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.CalenderCell .events .event .time {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.CalenderCell .events .event .summary {
+    font-weight: bold;
+}
+
+.CalenderCell .events .event .description {
+    font-size: 10pt;
 }

@@ -80,12 +80,25 @@ const App = () => {
 
     return (
         <div className="App">
-            <input className="file-input"
-                    type="file"
-                    accept="text/calendar"
-                    onChange={(event) => {
-                    setCalFile(event.target.files[0]);
-                }} />
+            <div className="file-input">
+                <h1>Rolling calender</h1>
+                <ol>
+                    <li>Export .ics file from Google Calender</li>
+                    <li>Upload here</li>
+                    <li>Print, using the browser controls.</li>
+                </ol>
+                <p>
+                    <em>This section won't print.</em>
+                </p>
+                <p>
+                    <input
+                            type="file"
+                            accept="text/calendar"
+                            onChange={(event) => {
+                            setCalFile(event.target.files[0]);
+                        }} />
+                </p>
+            </div>
 
             <div className="calender">
                 {calendarCells.map(date => (

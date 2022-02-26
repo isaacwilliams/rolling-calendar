@@ -6,6 +6,15 @@
     }
 }
 
+.file-input {
+    padding: 1rem;
+    background: #FFEBCD;
+}
+
+.file-input ol {
+    padding-inline-start: 1rem;
+}
+
 .calender {
     display: grid;
 

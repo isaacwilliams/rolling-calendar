@@ -6,6 +6,16 @@ import { buildCalenderData, datePlusDays } from './dateUtil';
 
 import './App.css';
 
+const formatEventTime = (time) => {
+    if (dateFormat(time, 'h tt') === '12 am') return;
+
+    const hasMinutes = dateFormat(time, 'MM') !== '00';
+
+    return hasMinutes ?
+        dateFormat(time, 'h:MM tt') :
+        dateFormat(time, 'h tt');
+};
+
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
@@ -14,16 +24,30 @@ const CalendarCell = ({ date, eventData = [] }) => {
         end <= dateEnd
     ));
 
+    const dayOfWeek = date.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+
     return (
-        <div className="CalenderCell">
+        <div className={`CalenderCell ${isWeekend ? 'weekend' :'weekday'}`}>
             <div className="date">
-                {dateFormat(date, 'dddd, dS mmmm')}
-                {cellEvents.map(({ uid, summary }) => (
-                    <li key={uid}>
-                        {summary}
-                    </li>
-                ))}
+                <div className="day">{dateFormat(date, 'dddd')}</div>
+                <div className="dt">{dateFormat(date, 'dS mmmm')}</div>
             </div>
+            {cellEvents.length > 0 && (
+                <ul className="events">
+                    {cellEvents.map(({ uid, start, summary, description }) => {
+                        const eventTime = formatEventTime(start);
+
+                        return (
+                            <li key={uid}>
+                                {eventTime}
+                                {summary}
+                                {description}
+                            </li>
+                        );
+                    })}
+                </ul>
+            )}
         </div>
     );
 };
@@ -54,11 +78,13 @@ const App = () => {
 
     return (
         <div className="App">
-            <input type="file"
+            <input className="file-input"
+                    type="file"
                     accept="text/calendar"
                     onChange={(event) => {
                     setCalFile(event.target.files[0]);
                 }} />
+
             <div className="calender">
                 {calendarCells.map(date => (
                     <CalendarCell key={date.toString()}

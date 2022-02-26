@@ -22,6 +22,7 @@ const parseCalDate = (dateStr) => {
         d.setUTCHours(hour, mins, 0, 0);
     } else {
         d.setHours(0, 0, 0, 0);
+        d.setMinutes(0, 0, 0);
     }
 
     return d;
@@ -39,8 +40,6 @@ const parseCalData = (calData) => {
         start: parseCalDate(calEvent.dtstart.value),
         end: parseCalDate(calEvent.dtend.value),
     }));
-
-    console.log(events);
 
     return events;
 };

@@ -19,10 +19,12 @@ const formatEventTime = (time) => {
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
-    const cellEvents = eventData.filter(({ start, end }) => (
-        start >= date &&
-        end <= dateEnd
-    ));
+    const cellEvents = eventData
+        .filter(({ start, end }) => (
+            start >= date &&
+            end <= dateEnd
+        ))
+        .sort(({ start: startA }, { start: startB }) => startA - startB);
 
     const dayOfWeek = date.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;

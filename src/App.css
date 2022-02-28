@@ -54,6 +54,13 @@
     padding-right: 0.5rem;
 }
 
+.CalenderCell .events .event + .event {
+    margin-top: 0.6rem;
+    padding-top: 0.4rem;
+
+    border-top: 1px solid #bbb;
+}
+
 .CalenderCell .events .event .time {
     font-weight: bold;
     white-space: nowrap;

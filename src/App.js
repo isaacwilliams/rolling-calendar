@@ -19,7 +19,8 @@ const formatEventTime = (time) => {
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
-    const dateDay = date.getDay();
+    const dateDayOfWeek = date.getDay();
+
     const cellEvents = eventData
         .filter(({ start, end, repeat }) => (
             (
@@ -28,7 +29,7 @@ const CalendarCell = ({ date, eventData = [] }) => {
             )
             ||
             (
-                repeat && repeat.day === dateDay
+                repeat && repeat.dayOfWeek === dateDayOfWeek
             )
         ))
         .sort(({ start: startA }, { start: startB }) => startA - startB);

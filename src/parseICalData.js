@@ -30,7 +30,7 @@ const parseEventValue = ([name, _, type, value]) => {
             console.log(value)
             return {
                 ...value,
-                day: getJsDayOfWeek(value['byday']),
+                dayOfWeek: getJsDayOfWeek(value['byday']),
             };
         default:
             return value;

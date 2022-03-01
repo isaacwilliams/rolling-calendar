@@ -19,10 +19,17 @@ const formatEventTime = (time) => {
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
+    const dateDay = date.getDay();
     const cellEvents = eventData
-        .filter(({ start, end }) => (
-            start >= date &&
-            end <= dateEnd
+        .filter(({ start, end, repeat }) => (
+            (
+                start >= date &&
+                end <= dateEnd
+            )
+            ||
+            (
+                repeat && repeat.day === dateDay
+            )
         ))
         .sort(({ start: startA }, { start: startB }) => startA - startB);
 

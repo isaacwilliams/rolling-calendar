@@ -1,45 +1,76 @@
 
-import ICalParser from 'ical-js-parser';
+import ICAL from 'ical.js';
+import { isArray, last } from 'lodash';
 
-const parseCalDate = (dateStr) => {
-    const d = new Date();
-
-    const dateComp = dateStr.split('T')[0];
-    const timeComp = dateStr.split('T')[1];
-
-    if (dateComp) {
-        const year = parseInt(dateComp.slice(0, 4));
-        const month = parseInt(dateComp.slice(4, 6));
-        const day = parseInt(dateComp.slice(6, 8));
-
-        d.setUTCFullYear(year, month - 1, day);
+const getJsDayOfWeek = (day) => {
+    switch (day) {
+        case 'MO':
+            return 1;
+        case 'TU':
+            return 2;
+        case 'WE':
+            return 3;
+        case 'TH':
+            return 4;
+        case 'FR':
+            return 5;
+        case 'SA':
+            return 6;
+        case 'SU':
+        default:
+            return 0;
     }
-
-    if (timeComp) {
-        const hour = parseInt(timeComp.slice(0, 2));
-        const mins = parseInt(timeComp.slice(2, 4));
-
-        d.setUTCHours(hour, mins, 0, 0);
-    } else {
-        d.setHours(0, 0, 0, 0);
-        d.setMinutes(0, 0, 0);
-    }
-
-    return d;
 };
+
+const parseEventValue = ([name, _, type, value]) => {
+    switch (type) {
+        case 'date-time':
+            return new Date(value);
+        case 'recur':
+            console.log(value)
+            return {
+                ...value,
+                day: getJsDayOfWeek(value['byday']),
+            };
+        default:
+            return value;
+    }
+};
+
+const parseJCalEventValues = (jCalEvent) => {
+    return (
+        jCalEvent.reduce((acc, eventValue) => {
+            if (!isArray(eventValue)) return acc;
+            const [name] = eventValue;
+
+            const value = parseEventValue(eventValue);
+            acc[name] = value;
+
+            return acc;
+        }, {})
+    );
+}
 
 const parseCalData = (calData) => {
     if (!calData) return;
 
-    const resultJSON = ICalParser.toJSON(calData);
+    const jCal = ICAL.parse(calData);
 
-    const events = resultJSON.events.map((calEvent) => ({
+    const jCalEvents = (last(jCal) || [])
+        .filter(([type]) => type === 'vevent')
+        .map(event => event[1])
+        .map(parseJCalEventValues);
+
+    const events = jCalEvents.map((calEvent) => ({
         uid: calEvent.uid,
         summary: calEvent.summary,
         description: calEvent.description,
-        start: parseCalDate(calEvent.dtstart.value),
-        end: parseCalDate(calEvent.dtend.value),
+        start: calEvent.dtstart,
+        end: calEvent.dtend,
+        repeat: calEvent.rrule,
     }));
+
+    console.log(events);
 
     return events;
 };

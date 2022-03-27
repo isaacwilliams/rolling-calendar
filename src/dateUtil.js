@@ -7,9 +7,11 @@ const getMostRecentMonday = (_date) => {
     return new Date(date.setDate(diff));
 };
 
-export const datePlusDays = (date, daysToAdd) => (
-    new Date(date.getTime() + DAY_MS * daysToAdd)
-);
+export const datePlusDays = (date, daysToAdd) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + daysToAdd);
+    return result;
+};
 
 export const buildCalenderData = (days = 28) => {
     const today = new Date().setHours(0, 0, 0, 0);

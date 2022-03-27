@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import dateFormat from 'dateformat';
+import { uniqBy } from 'lodash/fp';
 
 import parseCalData from './parseICalData';
 import { buildCalenderData, datePlusDays } from './dateUtil';
 
 import './App.css';
+
+const uniqById = uniqBy('id');
 
 const formatEventTime = (time) => {
     if (dateFormat(time, 'h tt') === '12 am') return;
@@ -15,6 +18,10 @@ const formatEventTime = (time) => {
         dateFormat(time, 'h:MM tt') :
         dateFormat(time, 'h tt');
 };
+
+const getTimeOfDay = (date) => (
+    date.getHours() + date.getMinutes()
+);
 
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
@@ -32,7 +39,11 @@ const CalendarCell = ({ date, eventData = [] }) => {
                 repeat && repeat.dayOfWeek === dateDayOfWeek
             )
         ))
-        .sort(({ start: startA }, { start: startB }) => startA - startB);
+        .sort(({ start: startA }, { start: startB }) => (
+            getTimeOfDay(startA) - getTimeOfDay(startB)
+        ));
+
+    const uniqCellEvents = uniqById(cellEvents);
 
     const dayOfWeek = date.getDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
@@ -45,7 +56,7 @@ const CalendarCell = ({ date, eventData = [] }) => {
             </div>
             {cellEvents.length > 0 && (
                 <ul className="events">
-                    {cellEvents.map(({ uid, start, summary, description }) => {
+                    {uniqCellEvents.map(({ uid, start, summary, description }) => {
                         const eventTime = formatEventTime(start);
 
                         return (

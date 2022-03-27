@@ -27,7 +27,6 @@ const parseEventValue = ([name, _, type, value]) => {
         case 'date-time':
             return new Date(value);
         case 'recur':
-            console.log(value)
             return {
                 ...value,
                 dayOfWeek: getJsDayOfWeek(value['byday']),
@@ -69,8 +68,6 @@ const parseCalData = (calData) => {
         end: calEvent.dtend,
         repeat: calEvent.rrule,
     }));
-
-    console.log(events);
 
     return events;
 };

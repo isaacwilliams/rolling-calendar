@@ -1,4 +1,3 @@
-export const DAY_MS = 3600 * 1000 * 24;
 
 const getMostRecentMonday = (_date) => {
     const date = new Date(_date);

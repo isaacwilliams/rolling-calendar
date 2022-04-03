@@ -7,7 +7,7 @@ import { buildCalenderData, datePlusDays } from './dateUtil';
 
 import './App.css';
 
-const uniqById = uniqBy('id');
+const uniqById = uniqBy('uid');
 
 const formatEventTime = (time) => {
     if (dateFormat(time, 'h tt') === '12 am') return;
@@ -27,6 +27,8 @@ const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
     const dateDayOfWeek = date.getDay();
+
+    console.log(eventData);
 
     const cellEvents = eventData
         .filter(({ start, end, repeat }) => (

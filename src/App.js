@@ -36,7 +36,8 @@ const CalendarCell = ({ date, eventData = [] }) => {
             )
             ||
             (
-                repeat && repeat.dayOfWeek === dateDayOfWeek
+                repeat && repeat.dayOfWeek === dateDayOfWeek &&
+                start <= date
             )
         ))
         .sort(({ start: startA }, { start: startB }) => (
@@ -56,11 +57,12 @@ const CalendarCell = ({ date, eventData = [] }) => {
             </div>
             {cellEvents.length > 0 && (
                 <ul className="events">
-                    {uniqCellEvents.map(({ uid, start, summary, description }) => {
+                    {uniqCellEvents.map((event) => {
+                        const { uid, start, summary, description } = event;
                         const eventTime = formatEventTime(start);
 
                         return (
-                            <li key={uid} className="event">
+                            <li key={uid} className="event" onClick={() => console.log(event)}>
                                 {eventTime && <span className="time">{eventTime}:</span>}
                                 {' '}
                                 <span className="summary">{summary}</span>

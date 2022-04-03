@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/rolling-calendar/static/css/main.1d741876.css",
-    "main.js": "/rolling-calendar/static/js/main.f59dd7f9.js",
+    "main.js": "/rolling-calendar/static/js/main.8625287c.js",
     "index.html": "/rolling-calendar/index.html",
     "main.1d741876.css.map": "/rolling-calendar/static/css/main.1d741876.css.map",
-    "main.f59dd7f9.js.map": "/rolling-calendar/static/js/main.f59dd7f9.js.map"
+    "main.8625287c.js.map": "/rolling-calendar/static/js/main.8625287c.js.map"
   },
   "entrypoints": [
     "static/css/main.1d741876.css",
-    "static/js/main.f59dd7f9.js"
+    "static/js/main.8625287c.js"
   ]
 }

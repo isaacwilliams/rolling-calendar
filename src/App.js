@@ -20,15 +20,13 @@ const formatEventTime = (time) => {
 };
 
 const getTimeOfDay = (date) => (
-    date.getHours() + date.getMinutes()
+    date.getHours() * 60 + date.getMinutes()
 );
 
 const CalendarCell = ({ date, eventData = [] }) => {
     const dateEnd = datePlusDays(date, 1);
 
     const dateDayOfWeek = date.getDay();
-
-    console.log(eventData);
 
     const cellEvents = eventData
         .filter(({ start, end, repeat }) => (

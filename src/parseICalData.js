@@ -1,6 +1,6 @@
 
 import ICAL from 'ical.js';
-import { isArray, last } from 'lodash';
+import { isArray, isNumber, last } from 'lodash';
 
 const getJsDayOfWeek = (day) => {
     switch (day) {
@@ -27,9 +27,15 @@ const parseEventValue = ([name, _, type, value]) => {
         case 'date-time':
             return new Date(value);
         case 'recur':
+            const wkst = value['wkst'];
+
+            const dayOfWeek = isNumber(wkst) ?
+                wkst :
+                getJsDayOfWeek(value['byday']);
+
             return {
                 ...value,
-                dayOfWeek: getJsDayOfWeek(value['byday']),
+                dayOfWeek,
             };
         default:
             return value;
